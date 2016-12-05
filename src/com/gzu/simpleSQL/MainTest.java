@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 /**
- * Created by 陈杨 on 2016/12/5.
+ * Created by YangChern on 2016/12/5.
  */
 
 public class MainTest {
