@@ -90,10 +90,14 @@ class Parser {
             } else {
                 judgeError = true;
             }
-        } else if(strArray[0].compareToIgnoreCase("insert") == 0) {             //insert
-            if(strArray[1].compareToIgnoreCase("into") == 0) {
+        } else if(strArray[0].compareToIgnoreCase("insert") == 0) {             //insert into
+            if(strArray[1].compareToIgnoreCase("into") == 0 && strArray[3].compareToIgnoreCase("values") == 0) {
                 tableName = strArray[2];
-                InsertData idata = new InsertData(tableName);
+                ArrayList al = new ArrayList();
+                for(int i = 4; i < strArray.length; i++) {
+                    al.add(strArray[i]);
+                }
+                InsertData idata = new InsertData(tableName, al);
                 if(idata.getStatus()) {
                     System.out.println("Inserting data succeed!");
                 }

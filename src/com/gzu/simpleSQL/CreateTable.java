@@ -16,6 +16,47 @@ public class CreateTable {
 
     public CreateTable(String tableName, Map<String,String> map) {
         try {
+
+
+            File filedb = new File("E:\\default.db");
+
+            //if file doesnt exists, then create it
+            if (!filedb.exists()) {
+                filedb.createNewFile();
+                FileWriter fileWritter = new FileWriter(filedb.getName(), true);
+                BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+                Iterator it = map.keySet().iterator();
+                boolean flg = false;
+                bufferWritter.write("_TABLE_NAME," + tableName + "\n");
+                while(it.hasNext()){
+                    String key;
+                    String value;
+                    key = it.next().toString();
+                    value = map.get(key);
+                    if(flg) {
+                        bufferWritter.write(",");
+                    }
+                    bufferWritter.write(value);
+                    flg = true;
+//                System.out.println(key+"--"+value);
+                }
+                bufferWritter.write("\n");
+                bufferWritter.close();
+            } else {
+                System.out.println("The Table has existed!");
+            }
+
+
+
+
+
+
+
+
+
+
+
+
 //            String data = " This content will append to the end of the file";
 
             File file = new File("E:\\" + tableName + ".csv");
@@ -23,27 +64,26 @@ public class CreateTable {
             //if file doesnt exists, then create it
             if (!file.exists()) {
                 file.createNewFile();
+                FileWriter fileWritter = new FileWriter(file.getName(), true);
+                BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+                Iterator it=map.keySet().iterator();
+                boolean flg = false;
+                while(it.hasNext()){
+//                String key;
+                    String value;
+                    value=map.get(it.next().toString());
+                    if(flg) {
+                        bufferWritter.write(",");
+                    }
+                    bufferWritter.write(value);
+                    flg = true;
+//                System.out.println(key+"--"+value);
+                }
+                bufferWritter.write("\n");
+                bufferWritter.close();
             } else {
                 System.out.println("The Table has existed!");
             }
-            FileWriter fileWritter = new FileWriter(file.getName(), true);
-            BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
-            Iterator it=map.keySet().iterator();
-            boolean flg = false;
-            while(it.hasNext()){
-//                String key;
-                String value;
-                value=map.get(it.next().toString());
-                if(flg) {
-                    bufferWritter.write(",");
-                }
-                bufferWritter.write(value);
-                flg = true;
-//                System.out.println(key+"--"+value);
-            }
-            bufferWritter.write("\n");
-            bufferWritter.close();
-
         } catch (IOException e) {
             setStatus(false);
             e.printStackTrace();
