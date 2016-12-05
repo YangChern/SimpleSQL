@@ -2,7 +2,7 @@ package com.gzu.simpleSQL;
 
 import java.util.Scanner;
 
-public class TestMain {
+public class TreeTestMain {
 
 	/**
 	 * @param args
