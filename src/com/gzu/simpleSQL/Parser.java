@@ -51,7 +51,7 @@ class Parser {
             char[] c = new char[50];
             c = StrBlank.toCharArray();
             if(c[i] == ' ') {
-                if (!(((c[i - 1] >= '0' && c[i - 1] <= '9') || (c[i - 1] >= 'a' && c[i - 1] <= 'z')) && ((c[i + 1] >= '0' && c[i + 1] <= '9') || (c[i + 1] >= 'a' && c[i + 1] <= 'z')))) {
+                if (!(((c[i - 1] >= '0' && c[i - 1] <= '9') || (c[i - 1] >= 'a' && c[i - 1] <= 'z') || (c[i - 1] == '*')) && ((c[i + 1] >= '0' && c[i + 1] <= '9') || (c[i + 1] >= 'a' && c[i + 1] <= 'z') || (c[i + 1] == '*')))) {
                     StrBlank = removeCharAt(StrBlank, i);
                     continue;
                 }
@@ -77,7 +77,7 @@ class Parser {
                 System.out.println("Creating database succeed!");
             } else if(strArray[1].compareToIgnoreCase("table") == 0) {
                 tableName = strArray[2];
-                Map<String,String> map=new HashMap<String,String>();
+                Map<String,String> map = new HashMap<String,String>();
                 for(int i = 3; i < strArray.length-1; i += 2) {
                     map.put(strArray[i], strArray[i+1]);
                 }
@@ -104,8 +104,72 @@ class Parser {
             } else {
                 judgeError = true;
             }
-        } else if(strArray[0].compareToIgnoreCase("select") == 0) {             //select
-            System.out.println("Should Select");
+        } else if(strArray[0].compareToIgnoreCase("select") == 0) {             //select tname1.age,tname2.birth
+                                                                                //from tname1,tname2
+                                                                                //where tname.id=tname2.id and tname.id>1
+                                                                                //order by tname1.age
+            List<String> selParam = new ArrayList<String>();
+            List<String> fromParam = new ArrayList<String>();
+            List<String> whereParam = new ArrayList<String>();
+            String orderParam = "";
+            int[] keyIndex = new int[]{0, 0, 0};
+            int j = 0;
+            for(int i = 1; i < strArray.length; i++) {
+                if(strArray[i].compareToIgnoreCase("from") == 0) {          //keyIndex = {fromPosition, wherePosition, orderbyPosition}
+                    keyIndex[j++] = i;
+                } else if(strArray[i].compareToIgnoreCase("where") == 0) {
+                    keyIndex[j++] = i;
+                } else if(strArray[i].compareToIgnoreCase("order") == 0 && strArray[i+1].compareToIgnoreCase("by") == 0) {
+                    keyIndex[j++] = i;
+                }
+            }
+//            //?
+//            for(int i = 0; i < strArray.length; i++) {
+//                System.out.println("i = " + i + " : " + strArray[i]);
+//            }
+
+            for(int i = 1; i < keyIndex[0]; i++) {
+                selParam.add(strArray[i]);
+            }
+            if(selParam.isEmpty()) {//select 后面无参数
+                System.out.print("No select parameter. ");
+                judgeError = true;
+            } else {
+                //获取from后面的参数
+                if (keyIndex[1] > 0) {//有where条件
+                    for (int i = keyIndex[0]; i < keyIndex[1]; i++) {
+                        fromParam.add(strArray[i]);
+                    }
+                } else if(keyIndex[2] > 0) {//无where，有order by
+                    for (int i = keyIndex[0]; i < keyIndex[2]; i++) {
+                        fromParam.add(strArray[i]);
+                    }
+                } else if(keyIndex[1] == 0 && keyIndex[2] == 0) {//无where，无order by
+                    for (int i = keyIndex[0]; i < strArray.length; i++) {
+                        fromParam.add(strArray[i]);
+                    }
+                }
+
+                //获取where后面的参数
+                if (keyIndex[1] > 0) { //有where关键字才有意义
+                    if (keyIndex[2] > 0) {//有order by  select tname1.age,tname2.birth from tname1,tname2 where tname.id=tname2.id and tname.id>1 order by tname1.age
+                        for (int i = keyIndex[1]; i < keyIndex[2]; i++) {
+                            whereParam.add(strArray[i]);
+                        }
+                    } else {                //select tname1.age,tname2.birth from tname1,tname2 where tname.id=tname2.id and tname.id>1
+                        for (int i = keyIndex[1]; i < strArray.length; i++) {
+                            whereParam.add(strArray[i]);
+                        }
+                    }
+                }
+
+                //获取order by参数
+                if(keyIndex[2] >0) {
+                    orderParam = strArray[strArray.length-1];
+                }
+                Select slt = new Select(selParam, fromParam, whereParam, orderParam, keyIndex);
+//            System.out.println("Should Select");
+            }
         } else {
             judgeError = true;
         }

@@ -3,7 +3,7 @@ package com.gzu.simpleSQL;
 import java.io.*;
 
 /**
- * Created by 陈杨 on 2016/12/5.
+ * Created by YangChern on 2016/12/5.
  */
 public class CreateDatabase {
     boolean judgeError = true;
@@ -14,7 +14,7 @@ public class CreateDatabase {
 
     public CreateDatabase(String dbName) {
         try {
-            File file = new File("E:\\default.db");
+            File file = new File("default.db");
             //if file doesnt exists, then create it
             if (!file.exists()) {
                 file.createNewFile();

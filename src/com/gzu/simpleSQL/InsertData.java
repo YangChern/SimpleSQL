@@ -13,24 +13,18 @@ import java.util.Iterator;
 public class InsertData {
     boolean judgeError = true;
 
-
-
     public InsertData() {
-
     }
 
     public InsertData(String tableName, ArrayList al) {
         try {
-            String data = " This content will append to the end of the file";
 
-            File file = new File("E:\\" + tableName + ".csv");
-
-            //if file doesnt exists, then create it
+            File file = new File(tableName + ".csv");
             if (!file.exists()) {
                 System.out.println("Table dosen't exist!");
                 this.setStatus(false);
             } else {
-                file.createNewFile();
+                file.createNewFile();                                                   //是不是创建新文件就把以前的信息覆盖掉了?？
                 FileWriter fileWritter = new FileWriter(file.getName(), true);
                 BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
                 boolean flg = false;
@@ -41,11 +35,10 @@ public class InsertData {
                         bufferWritter.write(",");
                     }
                     bufferWritter.write(obj.toString());
-                    System.out.println("obj:" + obj.toString());
+//                    System.out.println("obj:" + obj.toString());
                 }
                 bufferWritter.write("\n");
                 bufferWritter.close();
-                System.out.println("Done");
             }
         } catch (IOException e) {
             setStatus(false);

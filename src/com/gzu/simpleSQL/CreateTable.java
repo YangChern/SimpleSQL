@@ -15,12 +15,16 @@ public class CreateTable {
     }
 
     public CreateTable(String tableName, Map<String,String> map) {
+
         try {
-
-
-            File filedb = new File("E:\\default.db");
-
-            //if file doesnt exists, then create it
+            /**首先将表信息写入default.db
+             *写入格式：_TABLE_NAME,tableName
+             *          columnName1,columnType1
+             *          columnName2,columnType2
+             *             ......  ,   ......
+             *             ......  ,   ......
+             */
+            File filedb = new File("default.db");
             if (!filedb.exists()) {
                 filedb.createNewFile();
                 FileWriter fileWritter = new FileWriter(filedb.getName(), true);
@@ -46,42 +50,29 @@ public class CreateTable {
                 System.out.println("The Table has existed!");
             }
 
-
-
-
-
-
-
-
-
-
-
-
-//            String data = " This content will append to the end of the file";
-
-            File file = new File("E:\\" + tableName + ".csv");
-
-            //if file doesnt exists, then create it
+            /** 创建tableName.csv文件
+             *  将数据库列名写入文件
+             *  格式：columnName1,columnName2,columnName3,...,...(末尾无逗号或其他字符)
+             */
+            File file = new File(tableName + ".csv");
             if (!file.exists()) {
                 file.createNewFile();
                 FileWriter fileWritter = new FileWriter(file.getName(), true);
                 BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
-                Iterator it=map.keySet().iterator();
+                Iterator it = map.keySet().iterator();
                 boolean flg = false;
                 while(it.hasNext()){
-//                String key;
                     String value;
-                    value=map.get(it.next().toString());
+                    value = map.get(it.next().toString());
                     if(flg) {
                         bufferWritter.write(",");
                     }
                     bufferWritter.write(value);
                     flg = true;
-//                System.out.println(key+"--"+value);
                 }
                 bufferWritter.write("\n");
                 bufferWritter.close();
-            } else {
+            } else {//将表文件是否存在作为数据库表存在的依据，也可以读取default.db文件的数据库表的信息来判断。
                 System.out.println("The Table has existed!");
             }
         } catch (IOException e) {
@@ -97,58 +88,5 @@ public class CreateTable {
     public boolean getStatus() {
         return this.judgeError;
     }
-
-    public void readFileByLines(String fileName) {
-        File file = new File(fileName);
-        BufferedReader reader = null;
-        try {
-            System.out.println("以行为单位读取文件内容，一次读一整行：");
-            reader = new BufferedReader(new FileReader(file));
-            String tempString = null;
-            int line = 1;
-            // 一次读入一行，直到读入null为文件结束
-            while ((tempString = reader.readLine()) != null) {
-                // 显示行号
-                System.out.println("line " + line + ": " + tempString);
-                line++;
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                }
-            }
-        }
-    }
-
-
-//    public static void main(String[] args) {
-//        try {
-//            String data = " This content will append to the end of the file\n";
-//
-//            File file = new File("E:\\table.csv");
-//
-//            //if file doesnt exists, then create it
-//            if (!file.exists()) {
-//                file.createNewFile();
-//            }
-//
-//            //true = append file
-//            FileWriter fileWritter = new FileWriter(file.getName(), true);
-//            BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
-//            bufferWritter.write(data);
-//            bufferWritter.write(data);
-//            bufferWritter.close();
-//
-//            System.out.println("Done");
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 }
