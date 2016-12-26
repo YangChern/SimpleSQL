@@ -46,8 +46,6 @@ public class CreateTable {
                 }
                 bufferWritter.write("\n");
                 bufferWritter.close();
-            } else {
-                System.out.println("The Table has existed!");
             }
 
             /** 创建tableName.csv文件

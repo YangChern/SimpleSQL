@@ -167,7 +167,7 @@ class Parser {
                 if(keyIndex[2] >0) {
                     orderParam = strArray[strArray.length-1];
                 }
-                Select slt = new Select(selParam, fromParam, whereParam, orderParam, keyIndex);
+//                Select slt = new Select(selParam, fromParam, whereParam, orderParam, keyIndex);
 //            System.out.println("Should Select");
             }
         } else {

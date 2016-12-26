@@ -23,42 +23,43 @@ public class Select {
     public Select() {
     }
 
-    public Select(List<String> selParam, List<String> fromParam, List<String> whereParam, String orderParam, int[] keyIndex) {
-//        ArrayList <int[]> a = new ArrayList <int[]>();
-//        List<String> infoList = new ArrayList<String>();
-        Iterator it = selParam.iterator();
-        String[] selColumn = new String[20];
-        int i = 0;
-//        Map<String, String> selMap = new HashMap<String, String>();
-        while (it.hasNext()){
-            Object obj = it.next();
-            String[] infoLine = new String[2];
-            infoLine = obj.toString().split(".");
-//            selMap.put(infoLine[0], infoLine[1]);
-            selColumn[i++] = infoLine[0];
-            selColumn[i++] = infoLine[1];
-        }
-
-        i = 0;
-        it = selParam.iterator();
-        String[] fromTableName = new String[20];
-        while (it.hasNext()){
-            Object obj = it.next();
-            fromTableName[i++] = obj.toString();
-        }
-
-        i = 0;
-        it = selParam.iterator();
-        String[] condition = new String[20];
-        while (it.hasNext()){
-            Object obj = it.next();
-            String[] infoLine = new String[2];
-            infoLine = obj.toString().split("=|>|<|>=|<=|<>");
-//            selMap.put(infoLine[0], infoLine[1]);
-            condition[i++] = infoLine[0];
-            condition[i++] = infoLine[1];
-        }
-    }
+//    public Select(List<String> selParam, List<String> fromParam, List<String> whereParam, String orderParam, int[] keyIndex) {
+////        ArrayList <int[]> a = new ArrayList <int[]>();
+////        List<String> infoList = new ArrayList<String>();
+//        Iterator it = selParam.iterator();
+//        String[] selColumn = new String[20];
+//        int i = 0;
+////        Map<String, String> selMap = new HashMap<String, String>();
+//        while (it.hasNext()){
+//            Object obj = it.next();
+//            String[] infoLine = new String[2];
+//            infoLine = obj.toString().split(".");
+////            selMap.put(infoLine[0], infoLine[1]);
+//            selColumn[i++] = infoLine[0];
+//            selColumn[i++] = infoLine[1];
+//        }
+//
+//        i = 0;
+//        it = selParam.iterator();
+//        String[] fromTableName = new String[20];
+//        while (it.hasNext()){
+//            Object obj = it.next();
+//            fromTableName[i++] = obj.toString();
+//        }
+//
+//        i = 0;
+//        it = selParam.iterator();
+//        String[] condition = new String[20];
+//        while (it.hasNext()){
+//            Object obj = it.next();
+//            String[] infoLine = new String[2];
+//            String
+//            infoLine = obj.toString().split("=|>|<|>=|<=|<>");
+////            selMap.put(infoLine[0], infoLine[1]);
+//            condition[i++] = infoLine[0];
+//            condition[i++] = infoLine[1];
+//        }
+//    }
 
     public void readFileByLines(String tableName) {
         File file = new File(tableName);
